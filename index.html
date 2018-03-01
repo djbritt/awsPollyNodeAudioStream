@@ -1,0 +1,43 @@
+<html>
+
+<head>
+	<title>Chat Room</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var socket = io.connect('https://' + document.domain + ':' + location.port);
+			socket.on('message', function(msg) {
+				if (msg['voice'] === undefined)
+					$("#messages").append('<li>' + msg['msg'] + '</li>');
+				else 
+					$("#messages").append('<li>' + msg['msg'] + " -" + msg['voice'] + '</li>');	
+				console.log('Received message');
+				console.log(msg)
+			});
+			$('#chat').submit(function(event) {
+				
+				text = document.getElementById('text');
+				player = document.getElementById('player');
+				socket.emit('message', {'msg': text.value});
+				var returnVal = '/read?text=' + text.value;
+				console.log(returnVal)
+				player.src = returnVal;
+				player.play();
+				text.value = ""
+				event.preventDefault();
+			});
+		});
+	</script>
+	<ul id="messages"></ul>
+	<form id="chat">
+		Message: <input id="text" type="text" placeholder="Message...">
+		<input type="submit" value="Submit">
+	</form>
+	<audio id="player"></audio>
+</body>
+
+</html>
