@@ -1,4 +1,3 @@
-// Load the SDK
 const AWS = require('aws-sdk')
 const Fs = require('fs')
 var app = require('express')();
@@ -6,7 +5,6 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
 
-// Create an Polly client
 const Polly = new AWS.Polly({
     signatureVersion: 'v4',
     region: 'us-east-1'
@@ -34,7 +32,6 @@ app.get('/read', function(req, res) {
         'VoiceId': chosenVoice
     }
 
-
     Polly.synthesizeSpeech(params, (err, data) => {
         if (err) {
             console.log(err.code)
@@ -61,7 +58,6 @@ app.get('/read', function(req, res) {
             }
         }
     })
-
 });
 
 io.on('connection', function(socket) {
