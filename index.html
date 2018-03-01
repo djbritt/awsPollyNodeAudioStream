@@ -1,5 +1,4 @@
 <html>
-
 <head>
 	<title>Chat Room</title>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
@@ -19,7 +18,6 @@
 				console.log(msg)
 			});
 			$('#chat').submit(function(event) {
-				
 				text = document.getElementById('text');
 				player = document.getElementById('player');
 				socket.emit('message', {'msg': text.value});
